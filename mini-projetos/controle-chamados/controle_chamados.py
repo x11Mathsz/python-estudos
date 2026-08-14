@@ -1,10 +1,12 @@
 
 
 def menu_chamados():
-    chamado_registrado = False
+    chamados = []
+    
+    
     opcao = 0
     while opcao != 4:
-        print("Controle de Chamados de T.I")
+        print("\nControle de Chamados de T.I")
         print("1 - Registrar chamado")
         print("2 - Consultar prioridade")
         print("3 - Calcular tempo médio")
@@ -14,20 +16,37 @@ def menu_chamados():
         
         match opcao:
             case 1:
-                quantidade_pessoas, problema = registrar_chamado()
-                chamado_registrado = True
+                
+                novo_chamado = registrar_chamado()
+                chamados.append(novo_chamado)
+                
             case 2:
                 #Checando se tem chamado registrado
-                if chamado_registrado:
-                    
-                    print("Consultar prioridade")
-                    prioridade = calcular_prioridade(quantidade_pessoas, problema)
-                    print(f"Prioridade {prioridade}")
+                if chamados:
+                    for chamado in chamados:
+                        quantidade_pessoas = chamado["quantidade"]
+                        problema = chamado["problema"]
+                        prioridade = calcular_prioridade(quantidade_pessoas, problema)
+                        print(f"Nome: {chamado['nome']} \nPrioridade: {prioridade}")
                 else:
-                    print("Nenhum chamado foi registrado.")
+                    print("Nenhum chamado foi registrado, voltando para o menu!")
                 
             case 3:
-                print("Calcular tempe (em construção)")
+                tempo_total_chamados = 0
+                #Checando se tem chamado
+                if chamados:
+                    #tempo_medio = tempo_total_chamados / total_chamados
+                    #print(f"Tempo medio {tempo_medio}")
+                    
+                    #Usando for para percorrer a lista para coletar o tempo
+                    for chamado in chamados:
+                        tempo_total_chamados += chamado["tempo"]
+                    
+                    tempo_medio = tempo_total_chamados /len(chamados)
+                    print(f"Tempo medio {tempo_medio:.2f} minutos")
+                    
+                else:
+                    print("Nenhum chamado foi registrado, voltando para o menu!")
             case 4:
                 print("Saindo...")
             case _:
@@ -55,9 +74,12 @@ def registrar_chamado():
     tempo_estimado = verificador_inteiro("Digite o tempo: ", "Erro! Digite o tempo em minutos válidos.")
     
     
-    print(f"Nome {nome} \nQuantidade: {quantidade_pessoas} \nProblema {problema_afeta} \nTempo estimado: {tempo_estimado}")
+    print(f"\nChamado Registrado \nNome {nome} \nQuantidade: {quantidade_pessoas} \nProblema: {problema_afeta} \nTempo estimado: {tempo_estimado}")
     
-    return quantidade_pessoas, problema_afeta
+    #Registrando o chamado, dicionario precisa ser algo como dic = {"nome": nome, "quantidade":, quantidade}
+    novo_chamado = {"nome": nome,"quantidade": quantidade_pessoas,"problema": problema_afeta,"tempo": tempo_estimado}
+    
+    return novo_chamado
     
 def calcular_prioridade(pessoas_afetadas, problema):
     pontos = 0
@@ -70,8 +92,6 @@ def calcular_prioridade(pessoas_afetadas, problema):
         pontos += 2
     else:
         pontos += 1
-        
-    print(pontos)
         
     if pontos >= 4:
         return "Alta"
