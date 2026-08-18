@@ -19,7 +19,7 @@ def menu_controle_equipamentos():
         
         match opcao:
             case 1:
-                equipamento_novo = cadastrar_equipamento()
+                equipamento_novo = cadastrar_equipamento(equipamentos)
                 equipamentos.append(equipamento_novo)
                 
             case 2:
@@ -38,9 +38,21 @@ def menu_controle_equipamentos():
                 
                 
 #função para cadastrar equipemamento, um equipamento deve possuir patrimonio, tipo, setor, status
-def cadastrar_equipamento():
+def cadastrar_equipamento(equipamentos):
     print("\nCadastrar Equipamento!")
     patrimonio = verificador_inteiros("Digite o patrimônio do equipamento: ", "Erro! Digite apenas números para registrar o patrimônio!")
+    
+    
+    #Verificando se possui patrimonio registrado
+    while True:
+        duplicado = verificador_duplicado(patrimonio, equipamentos)
+            
+        if duplicado:
+            print("\nEste patrimonio já está em uso!")
+            patrimonio = verificador_inteiros("\nDigite o patrimônio do equipamento: ", "Erro! Digite apenas números para registrar o patrimônio!") 
+        else:
+            break
+    
     tipo = verificador_palavras("Digite o tipo do equipamento: ")
     setor = verificador_palavras("Digite o nome do setor: ")
     status = escolher_status()
@@ -53,6 +65,13 @@ def cadastrar_equipamento():
     #retornando o equipamento
     return novo_equipamento
 
+#função para verificar se já temos um patrimonio registrado
+def verificador_duplicado(patrimonio, equipamentos):
+    for equipamento in equipamentos:
+        if patrimonio == equipamento["patrimonio"]:
+            return True
+    
+    return False
 
     
     
