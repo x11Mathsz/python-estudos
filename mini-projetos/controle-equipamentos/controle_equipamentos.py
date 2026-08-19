@@ -33,7 +33,7 @@ def menu_controle_equipamentos():
                         status_eqt = equipamento["status"]
                         print(f"\nPatrimônio: {patrimonio_eqt} \nTipo: {tipo_eqt} \nSetor: {setor_eqt} \nStatus: {status_eqt}\n")
                 else:
-                    print("\nNenhum equipamentos foi registrado! Voltando para o menu!\n")
+                    print("\nNenhum equipamento foi registrado!! Voltando para o menu!\n")
             case 3:
                 #Buscar patrimonio
                 #verificando se a lista está vazia
@@ -49,7 +49,7 @@ def menu_controle_equipamentos():
                             break
                         else:
 
-                            resposta = verificador_sim_nao("Não foi encontrado patrimonio digitado!\nDeseja retornar para o menu? [S/N] \n--> ")
+                            resposta = verificador_sim_nao("O patrimônio informado não foi encontrado!\nDeseja retornar para o menu? [S/N] \n--> ")
                         
                             if resposta == "S":
                                 print("\nVoltando...")
@@ -57,7 +57,7 @@ def menu_controle_equipamentos():
                         
                             
                 else:
-                    print("\nNenhum equipamentos foi registrado! Voltando para o menu!\n")
+                    print("\nNenhum equipamento foi registrado! Voltando para o menu!\n")
             
             case 4:
                 #verificando se a lista está vazia
@@ -81,7 +81,7 @@ def menu_controle_equipamentos():
                                 break
                             
                         else:
-                            resposta = verificador_sim_nao("Não foi encontrado patrimonio digitado!\nDeseja retornar para o menu? [S/N] \n--> ")
+                            resposta = verificador_sim_nao("O patrimônio informado não foi encontrado!\nDeseja retornar para o menu? [S/N] \n--> ")
                                                     
                             if resposta == "S":
                                 print("\nVoltando...")
@@ -89,14 +89,47 @@ def menu_controle_equipamentos():
                             
                     
                 else:
-                    print("\nNenhum equipamentos foi registrado! Voltando para o menu!\n")
+                    print("\nNenhum equipamento foi registrado! Voltando para o menu!\n")
             case 5:
+                #verificando se a lista está vazia
                 if equipamentos:
                     resumo = mostrar_resumo(equipamentos)
                     print(resumo)
                 else:
                     print("\nNenhum equipamentos foi registrado! Voltando para o menu!\n")
+            case 6:
+                #verificando se a lista está vazia
+                if equipamentos:
+                    while True:
+                        id_patrimonio = verificador_inteiros("Digite o número do patrimônio do equipamento que deseja excluir: ", "Erro! Digite apenas números para realizar a busca!")
+                        equipamento_encontrado = buscar_equipamento(id_patrimonio, equipamentos)
                     
+                        #verificando se o equipamento_encontrado é diferente de none
+                        if equipamento_encontrado is not None:
+                            print(f"\nPatrimônio: {equipamento_encontrado["patrimonio"]} \nTipo: {equipamento_encontrado["tipo"]} \nSetor: {equipamento_encontrado["setor"]} \nStatus: {equipamento_encontrado["status"]}\n")
+                        
+                        #perguntando se o usuário realmente deseja excluir
+                            resposta = verificador_sim_nao("\nVocê deseja realmente excluir este equipamento? [S/N]\n--> ")
+                        
+                            if resposta == "S":
+                                equipamentos.remove(equipamento_encontrado)
+                                print("Equipamento excluído com sucesso!")
+                                break
+                            else:
+                                print("Voltando para o menu...")
+                                break
+                        else:
+                            resposta = verificador_sim_nao("O patrimônio informado não foi encontrado!\nDeseja retornar para o menu? [S/N] \n--> ")
+                                                    
+                            if resposta == "S":
+                                print("\nVoltando...")
+                                break
+                else:
+                    print("\nNenhum equipamento foi registrado! Voltando para o menu!\n")
+            case 7:
+                print("Saindo...")
+            case _:
+                print("Opção invalida!")
                 
                 
                 
@@ -145,7 +178,7 @@ def mostrar_resumo(equipamentos):
         elif equipamento["status"] == "Disponível":
             count_disponivel += 1
     
-    return f"Total de equipamentos: {count_equipamento} \nEm                              uso: {count_uso} \nEm manutenção: {count_manutencao} \nDisponível: {count_disponivel}"
+    return f"Total de equipamentos: {count_equipamento} \nEm uso: {count_uso} \nEm manutenção: {count_manutencao} \nDisponível: {count_disponivel}"
     
 
 #função para verfificar o patrimonio registrado
