@@ -58,6 +58,38 @@ def menu_controle_equipamentos():
                             
                 else:
                     print("\nNenhum equipamentos foi registrado! Voltando para o menu!\n")
+            
+            case 4:
+                #verificando se a lista está vazia
+                if equipamentos:
+                    print()
+                    while True:
+                        id_patrimonio = verificador_inteiros("Digite o número do patrimônio do equipamento que deseja realizar a alteração de status: ", "Erro! Digite apenas números para realizar a busca!")
+                        
+                        equipamento_encontrado = buscar_equipamento(id_patrimonio, equipamentos)
+                        if equipamento_encontrado is not None:
+                            print(f"\nPatrimônio: {equipamento_encontrado["patrimonio"]} \nTipo: {equipamento_encontrado["tipo"]} \nSetor: {equipamento_encontrado["setor"]} \nStatus: {equipamento_encontrado["status"]}\n")
+                            #verificando se o usuário realmente quer realizar a alteração
+                            resposta = verificador_sim_nao("Você deseja realmente realizar a alteração de status? [S/N]\n--> ")
+                            if resposta == "S":
+                                novo_status = escolher_status()
+                                equipamento_encontrado["status"] = novo_status
+                                print(f"Status do patrimônio {id_patrimonio} alterado para: {novo_status}")
+                                break
+                            else:
+                                print("Voltando para o menu...")
+                                break
+                            
+                        else:
+                            resposta = verificador_sim_nao("Não foi encontrado patrimonio digitado!\nDeseja retornar para o menu? [S/N] \n--> ")
+                                                    
+                            if resposta == "S":
+                                print("\nVoltando...")
+                                break
+                            
+                    
+                else:
+                    print("\nNenhum equipamentos foi registrado! Voltando para o menu!\n")
                 
                 
                 
