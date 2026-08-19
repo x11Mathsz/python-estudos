@@ -62,7 +62,7 @@ def menu_controle_equipamentos():
             case 4:
                 #verificando se a lista está vazia
                 if equipamentos:
-                    print()
+                    
                     while True:
                         id_patrimonio = verificador_inteiros("Digite o número do patrimônio do equipamento que deseja realizar a alteração de status: ", "Erro! Digite apenas números para realizar a busca!")
                         
@@ -90,6 +90,13 @@ def menu_controle_equipamentos():
                     
                 else:
                     print("\nNenhum equipamentos foi registrado! Voltando para o menu!\n")
+            case 5:
+                if equipamentos:
+                    resumo = mostrar_resumo(equipamentos)
+                    print(resumo)
+                else:
+                    print("\nNenhum equipamentos foi registrado! Voltando para o menu!\n")
+                    
                 
                 
                 
@@ -120,6 +127,26 @@ def cadastrar_equipamento(equipamentos):
     
     #retornando o equipamento
     return novo_equipamento
+
+#função para mostrar resumo
+def mostrar_resumo(equipamentos):
+    #criando variaveis para contar
+    count_equipamento = 0
+    count_uso = 0
+    count_manutencao = 0
+    count_disponivel = 0
+    
+    for equipamento in equipamentos:
+        count_equipamento += 1
+        if equipamento["status"] == "Em uso":
+            count_uso += 1
+        elif equipamento["status"] == "Em manutenção":
+            count_manutencao += 1
+        elif equipamento["status"] == "Disponível":
+            count_disponivel += 1
+    
+    return f"Total de equipamentos: {count_equipamento} \nEm                              uso: {count_uso} \nEm manutenção: {count_manutencao} \nDisponível: {count_disponivel}"
+    
 
 #função para verfificar o patrimonio registrado
 def buscar_equipamento(patrimonio, equipamentos):
