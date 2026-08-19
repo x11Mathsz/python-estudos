@@ -34,6 +34,30 @@ def menu_controle_equipamentos():
                         print(f"\nPatrimônio: {patrimonio_eqt} \nTipo: {tipo_eqt} \nSetor: {setor_eqt} \nStatus: {status_eqt}\n")
                 else:
                     print("\nNenhum equipamentos foi registrado! Voltando para o menu!\n")
+            case 3:
+                #Buscar patrimonio
+                #verificando se a lista está vazia
+                if equipamentos:
+                    
+                    while True:
+                        id_patrimonio = verificador_inteiros("Digite o número do patrimônio que deseja buscar: ", "Erro! Digite apenas números para realizar a busca!")
+                    
+                        equipamento_encontrado = buscar_equipamento(id_patrimonio, equipamentos)
+                    
+                        if equipamento_encontrado is not None:
+                            print(f"\nPatrimônio: {equipamento_encontrado["patrimonio"]} \nTipo: {equipamento_encontrado["tipo"]} \nSetor: {equipamento_encontrado["setor"]} \nStatus: {equipamento_encontrado["status"]}\n")
+                            break
+                        else:
+
+                            resposta = verificador_sim_nao("Não foi encontrado patrimonio digitado!\nDeseja retornar para o menu? [S/N] \n--> ")
+                        
+                            if resposta == "S":
+                                print("\nVoltando...")
+                                break
+                        
+                            
+                else:
+                    print("\nNenhum equipamentos foi registrado! Voltando para o menu!\n")
                 
                 
                 
@@ -64,6 +88,23 @@ def cadastrar_equipamento(equipamentos):
     
     #retornando o equipamento
     return novo_equipamento
+
+#função para verfificar o patrimonio registrado
+def buscar_equipamento(patrimonio, equipamentos):
+    for equipamento in equipamentos:
+        if patrimonio == equipamento["patrimonio"]:
+            return equipamento
+    return None
+
+#verificando sim ou não
+def verificador_sim_nao(mensagem):
+    while True:
+        resposta = input(mensagem).strip().upper()
+        
+        if resposta == "S" or resposta == "N":
+            return resposta
+        
+        print("Digite apenas S ou N")
 
 #função para verificar se já temos um patrimonio registrado
 def verificador_duplicado(patrimonio, equipamentos):
